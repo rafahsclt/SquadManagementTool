@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Content = styled.div`
+    margin: 50px 0;
     padding: 50px 50px 0;
     width: 100vw;
     height: 92vh;

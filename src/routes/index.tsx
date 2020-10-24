@@ -8,14 +8,14 @@ import Footer from '../components/Footer'
 
 const Routes: React.FC = () => {
     return (
-        <>  
+        <div style={{ overflowX: "hidden"}}>
             <Header />
                 <BrowserRouter>
-                    <Route path="/" component={Home} exact/>
+                    <Route path="/" component={Home} exact />
                     <Route path="/team" component={NewTeam} />
                 </BrowserRouter>
             <Footer />
-        </>
+        </div>
     )
 }
 

@@ -6,6 +6,10 @@ export const Container = styled.header`
     display: flex;
     background: linear-gradient(90deg, #C00E4E 0%, #8A206F 100%);
 
+    position: fixed;
+    top: 0;
+    left: 0;
+
     color: #fff;
     align-items: center;
     justify-content: space-between;

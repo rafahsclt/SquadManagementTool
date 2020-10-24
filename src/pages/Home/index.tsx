@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useCallback,useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { FiChevronsDown, FiEdit, FiPlus, FiTrash } from 'react-icons/fi'
+import { FiChevronsDown, FiEdit2, FiPlus, FiTrash, FiShare2 } from 'react-icons/fi'
 
 import userImg from '../../assets/user.jpg'
 import { Content, MyTeams, Statistics, Top5, PickedPlayer, Actions, TeamSection } from './styles'
 
-const teams = [
+const settedTeams = [
     {
         name: "Barcelona",
         description: "Barcelona Squad"
@@ -29,11 +29,28 @@ const teams = [
 ]
 
 const Home: React.FC = () => {
+    const [teams, setTeams] = useState(settedTeams)
+
     const history = useHistory()
 
     const navigateToNewTeam = useCallback(() => {
         history.push('/team')
-    }, [])
+    }, [history])
+
+    const sortByName = useCallback(() => {
+        const sorttedTeams = [...teams].sort((a, b) => a.name.localeCompare(b.name))
+        setTeams(sorttedTeams)
+
+        console.log(sorttedTeams)
+    }, [teams, setTeams])
+
+    const sortByDescription = useCallback(() => {
+        const sorttedTeams = [...teams].sort((a, b) => a.description.localeCompare(b.description))
+        setTeams(sorttedTeams)
+
+        console.log(sorttedTeams)
+    }, [teams, setTeams])
+
 
     return (
         <Content>
@@ -48,25 +65,30 @@ const Home: React.FC = () => {
                 </header>
                 <main>
                     <Actions>
-                        <button>
+                        <button
+                            onClick={sortByName}
+                        >
                             <p>Name</p>
                             <FiChevronsDown size={18} color="#000" />
                         </button>
-                        <button>
+                        <button
+                            onClick={sortByDescription}
+                        >
                             <p>Description</p>
                             <FiChevronsDown size={18} color="#000" />
                         </button>
                     </Actions>
-                    {teams.map((team) => (
-                        <TeamSection>
+                    {teams.map(team => (
+                        <TeamSection key={team.name}>
                             <div>
                                 <span>{team.name}</span>
                             </div>
                             <div>
                                 <span>{team.description}</span>
                                 <div>
-                                    <button><FiEdit size={18} color="#9F357F" /></button>
                                     <button><FiTrash size={18} color="#9F357F" /></button>
+                                    <button><FiShare2 size={18} color="#9F357F" /></button>
+                                    <button><FiEdit2 size={18} color="#9F357F" /></button>
                                 </div>
                             </div>
                         </TeamSection>
