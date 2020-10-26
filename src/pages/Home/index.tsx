@@ -1,66 +1,36 @@
-import React, { useCallback,useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useCallback, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import { FiChevronsDown, FiEdit2, FiPlus, FiTrash, FiShare2 } from 'react-icons/fi'
+
+import { useTeam } from '../../hooks/TeamContext'
 
 import userImg from '../../assets/user.jpg'
 import { Content, MyTeams, Statistics, Top5, PickedPlayer, Actions, TeamSection } from './styles'
 
-const settedTeams = [
-    {
-        name: "Barcelona",
-        description: "Barcelona Squad"
-    },
-    {
-        name: "Real Madrid",
-        description: "Real Madrid Squad"
-    },
-    {
-        name: "Milan",
-        description: "Milan Squad"
-    },
-    {
-        name: "Liverpool",
-        description: "Liverpool Squad"
-    },
-    {
-        name: "Bayer Munich",
-        description: "Bayer Munich Squad"
-    }
-]
-
 const Home: React.FC = () => {
-    const [teams, setTeams] = useState(settedTeams)
-
     const history = useHistory()
+    const location = useLocation()
+
+    const { sortByDescription, sortByName, teams, removeTeam } = useTeam()
 
     const navigateToNewTeam = useCallback(() => {
         history.push('/team')
     }, [history])
 
-    const sortByName = useCallback(() => {
-        const sorttedTeams = [...teams].sort((a, b) => a.name.localeCompare(b.name))
-        setTeams(sorttedTeams)
-
-        console.log(sorttedTeams)
-    }, [teams, setTeams])
-
-    const sortByDescription = useCallback(() => {
-        const sorttedTeams = [...teams].sort((a, b) => a.description.localeCompare(b.description))
-        setTeams(sorttedTeams)
-
-        console.log(sorttedTeams)
-    }, [teams, setTeams])
+    useEffect(() => {
+        console.log(location.state)
+    }, [location])
 
 
     return (
         <Content>
             <MyTeams>
                 <header>
-                   <h1> My Teams</h1>
-                   <button
-                    onClick={navigateToNewTeam}
-                   >
-                       <FiPlus size={24} color="#fff" />
+                    <h1> My Teams</h1>
+                    <button
+                        onClick={navigateToNewTeam}
+                    >
+                        <FiPlus size={24} color="#fff" />
                     </button>
                 </header>
                 <main>
@@ -79,16 +49,16 @@ const Home: React.FC = () => {
                         </button>
                     </Actions>
                     {teams.map(team => (
-                        <TeamSection key={team.name}>
+                        <TeamSection key={team.teamName}>
                             <div>
-                                <span>{team.name}</span>
+                                <span>{team.teamName}</span>
                             </div>
                             <div>
                                 <span>{team.description}</span>
                                 <div>
-                                    <button><FiTrash size={18} color="#9F357F" /></button>
+                                    <button onClick={() => removeTeam(team)}><FiTrash size={18} color="#9F357F" /></button>
                                     <button><FiShare2 size={18} color="#9F357F" /></button>
-                                    <button><FiEdit2 size={18} color="#9F357F" /></button>
+                                    <button onClick={() => history.push('/team', team)}><FiEdit2 size={18} color="#9F357F" /></button>
                                 </div>
                             </div>
                         </TeamSection>
@@ -152,21 +122,21 @@ const Home: React.FC = () => {
                     </main>
                 </Top5>
                 <PickedPlayer>
-                        <div>
-                            <h1>Most Picked Player</h1>
-                            <main>
-                                <img src={userImg} alt="Most Picked Player"/>
-                                <span>75%</span>
-                            </main>
-                        </div>
-                        <div>
-                            <h1>Less Picked Player</h1>
-                            <main>
-                                <img src={userImg} alt="Less Picked Player"/>
-                                <span>25%</span>
-                            </main>
-                        </div>
-                        <section />
+                    <div>
+                        <h1>Most Picked Player</h1>
+                        <main>
+                            <img src={userImg} alt="Most Picked Player" />
+                            <span>75%</span>
+                        </main>
+                    </div>
+                    <div>
+                        <h1>Less Picked Player</h1>
+                        <main>
+                            <img src={userImg} alt="Less Picked Player" />
+                            <span>25%</span>
+                        </main>
+                    </div>
+                    <section />
                 </PickedPlayer>
             </Statistics>
         </Content>

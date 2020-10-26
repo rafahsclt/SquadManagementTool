@@ -1,28 +1,40 @@
-import React, { useState, TextareaHTMLAttributes} from 'react'
+import React, { useState, useRef, useEffect, TextareaHTMLAttributes} from 'react'
+import { useField } from '@unform/core'
 
 import { Container } from './styles'
 
-interface InputProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     name: string
-    size: 'big' | 'normal'
+    visibleName: string
 }
 
-const Input: React.FC<InputProps> = ({ name, size, ...rest}) => {
+const TextArea: React.FC<TextAreaProps> = ({ name, visibleName,...rest}) => {
     const [isFocused, setIsFocused] = useState(false)
+
+    const textAreaRef = useRef(null)
+    const { fieldName, registerField} = useField(name)
+
+    useEffect(() => {
+        registerField({
+            name: fieldName,
+            ref: textAreaRef.current,
+            path: 'value'
+        })
+    }, [fieldName, registerField]) 
 
     return (
         <Container 
             isFocused={isFocused}
-            size={size}
         >
-            <span>{name}</span>
+            <span>{visibleName}</span>
             <textarea 
                 {...rest}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
+                ref={textAreaRef}
             />
         </Container>
     )
 }
 
-export default Input
+export default TextArea
