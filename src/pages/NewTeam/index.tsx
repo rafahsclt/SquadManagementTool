@@ -41,7 +41,7 @@ const NewTeam: React.FC = () => {
 
     const selectedTeam = location.state as Team
 
-    const { createTeam } = useTeam()
+    const { createTeam, editTeam } = useTeam()
 
     const [teamType, setTeamType] = useState<'Real' | 'Fantasy'>(() => selectedTeam ? selectedTeam.teamType : 'Fantasy')
     const [formation, setFormation] = useState<string>(() => selectedTeam ? selectedTeam.formation : "5 - 4 - 1")
@@ -137,9 +137,34 @@ const NewTeam: React.FC = () => {
                 abortEarly: false
             })
 
+            const ages = [
+                sectionOne?.age,
+                sectionTwo?.age,
+                sectionThree?.age,
+                sectionFour?.age,
+                sectionFive?.age,
+                sectionSix?.age,
+                sectionSeven?.age,
+                sectionEight?.age,
+                sectionNine?.age,
+                sectionTen?.age,
+                sectionEleven?.age,
+                ].filter(age => age !== undefined)
+
+            const reduceAge = ages.reduce((sum, age) => {
+                if(!sum) return 0
+                if(!age) return sum+= 0
+                return sum += age 
+            })
+
+            let averageAge
+
+            if(reduceAge) averageAge = Number((reduceAge / ages.length).toFixed(2))
+
             const newTeam = Object.assign(data, {
                 teamType,
                 formation,
+                averageAge,
                 positions: {
                     sectionOne,
                     sectionTwo,
@@ -156,9 +181,8 @@ const NewTeam: React.FC = () => {
                 tags
             })
 
-            createTeam(newTeam as Team)
-
-            console.log(newTeam)
+            if(!location.state) createTeam(newTeam as Team)
+            if(location.state) editTeam(location.state as Team, newTeam as Team)
 
             history.push('/')
         } catch(err) {
@@ -166,7 +190,8 @@ const NewTeam: React.FC = () => {
 
             formRef.current?.setErrors(errors)
         }
-    }, [sectionOne, sectionTwo, sectionThree, sectionFour, sectionFive, sectionSix, sectionSeven, sectionEight, sectionNine, sectionTen, sectionEleven, formation, tags, teamType, createTeam, history])
+    }, [sectionOne, sectionTwo, sectionThree, sectionFour, sectionFive, sectionSix, sectionSeven, sectionEight, 
+        sectionNine, sectionTen, sectionEleven, formation, tags, teamType, createTeam, history, editTeam, location.state])
 
     const handleChangeFormation = useCallback((event) => {
         setFormation(event.target.value)
@@ -263,6 +288,7 @@ const NewTeam: React.FC = () => {
                                         if (playerDragging) {
                                             setSectionOne(playerDragging)
                                             removeFromPlayers(playerDragging)
+                                            console.log(playerDragging)
                                         }
                                     }}
                                     onDragOver={(e) => e.preventDefault()}

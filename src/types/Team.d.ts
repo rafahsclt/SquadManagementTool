@@ -6,6 +6,7 @@ export default interface Team {
     teamType: 'Real' | 'Fantasy'
     formation: string
     description: string
+    averageAge: number
     positions: {
         sectionOne: Player
         sectionTwo: Player

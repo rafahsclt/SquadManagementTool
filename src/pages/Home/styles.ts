@@ -176,6 +176,10 @@ export const Top5 = styled.div`
                     strong {
                         font-weight: 600;
                     }
+
+                    :hover {
+                        border: 1px solid #a11861;
+                    }
                 }
             }
         }
@@ -194,16 +198,6 @@ export const PickedPlayer = styled.div`
     h1 {
         color: #fff;
         margin-bottom: 20px;
-    }
-
-    img {
-        height: 200px;
-        width: 200px;
-        border-radius: 50%;
-
-        :first-child {
-            border: 4px dashed #B11357;
-        }
     }
 
     div {
@@ -227,26 +221,37 @@ export const PickedPlayer = styled.div`
             border-bottom: 2px solid #fff;
             padding-bottom: 10px;
         }
+
+        > section {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border: 4px dashed #B11357;
+            padding: 10px;
     }
-
-    section {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: inherit;
-        width: 100px;
-        height: 100px;
-
-        border: 1px solid #E9E3E9;
-        border-radius: 50%;
-        
     }
+`
+
+export const Center = styled.section`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: inherit;
+    width: 100px;
+    height: 100px;
+
+    border: 1px solid #E9E3E9;
+    border-radius: 50%;
 `
