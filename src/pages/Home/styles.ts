@@ -14,6 +14,11 @@ export const MyTeams = styled.div`
     background-color: #FFF;
     border-radius: 20px;
     padding: 10px 20px;
+    overflow-y: scroll;
+
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 
     header {
         height: 60px;
